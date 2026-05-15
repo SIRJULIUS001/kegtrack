@@ -1,0 +1,197 @@
+<aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col hidden md:flex">
+
+    <!-- BRAND -->
+    <div class="p-6 flex items-center gap-3 border-b border-slate-800">
+        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center shadow">
+            <i class="bi bi-droplet-fill text-white text-xl"></i>
+        </div>
+
+        <span class="font-bold text-xl tracking-tight text-white">
+            KEG<span class="text-indigo-400">TRACK</span>
+        </span>
+    </div>
+
+    <!-- MENU -->
+    <div class="flex-1 p-4 space-y-6 overflow-y-auto">
+
+        <!-- ================= SUPERADMIN (UNCHANGED LOGIC) ================= -->
+        {% if request.user.is_superadmin %}
+
+        <div>
+            <p class="text-[10px] font-semibold text-slate-500 uppercase mb-3 px-2">
+                Main
+            </p>
+
+            <nav class="space-y-1">
+
+                <a href="{% url 'dashboard:superadmin_home' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800">
+                    <i class="bi bi-grid"></i> Dashboard
+                </a>
+
+                <a href="{% url 'core:business_list' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800">
+                    <i class="bi bi-building"></i> Businesses
+                </a>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-bar-chart"></i> Analytics <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+                <a href="{% url 'pos:superadmin_dashboard' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-800">
+                    <i class="bi bi-calculator"></i> POS System
+                </a>
+
+            </nav>
+        </div>
+
+        <div>
+            <p class="text-[10px] font-semibold text-slate-500 uppercase mb-3 px-2">
+                Administration
+            </p>
+
+            <nav class="space-y-1">
+
+                <a href="{% url 'dashboard:staff_list' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-people"></i> Staff Management
+                </a>
+
+                <a href="{% url 'inventory:dashboard' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-boxes"></i> Inventory
+                </a>
+
+                <a href="{% url 'tracking:keg_dashboard' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-weight"></i> Keg Tracking
+                </a>
+
+                <a href="{% url 'core:audit_logs' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-shield-check"></i> Audit Logs
+                </a>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-credit-card"></i> Subscriptions <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+                <a href="{% url 'core:system_settings' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-gear"></i> System Settings
+                </a>
+
+            </nav>
+        </div>
+
+        {% else %}
+
+        <!-- ================= BUSINESS ROLE SIDEBAR ================= -->
+
+        {% if request.user.role.name == "owner" %}
+
+        <div>
+            <p class="text-[10px] font-semibold text-slate-500 uppercase mb-3 px-2">
+                Owner Tools
+            </p>
+
+            <nav class="space-y-1">
+                <a href="{% url 'business:home' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800">
+                    <i class="bi bi-grid"></i> Dashboard
+                </a>
+                <a href="{% url 'business:profile' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-building"></i> Business Profile
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-people"></i> Staff Management
+                </a>
+
+                <a href="{% url 'inventory:business_inventory_dashboard'%}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-boxes"></i> Inventory
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-weight"></i> Keg Tracking
+                </a>
+
+                <a href="{% url 'pos:terminal' %}"class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded">
+                    <i class="bi bi-calculator"></i>POS
+                </a>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-bar-chart"></i> Sales Analytics <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+            </nav>
+        </div>
+
+        {% elif request.user.role.name == "manager" %}
+
+        <div>
+            <p class="text-[10px] font-semibold text-slate-500 uppercase mb-3 px-2">
+                Manager Tools
+            </p>
+
+            <nav class="space-y-1">
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-grid"></i> Dashboard
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-calculator"></i> POS System
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-boxes"></i> Inventory
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-weight"></i> Keg Tracking
+                </a>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-graph-up"></i> Sales Reports <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+            </nav>
+        </div>
+
+        {% else %}
+
+        <div>
+            <p class="text-[10px] font-semibold text-slate-500 uppercase mb-3 px-2">
+                Staff Tools
+            </p>
+
+            <nav class="space-y-1">
+
+                <a href="{% url 'business:home' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-grid"></i> Dashboard
+                </a>
+
+                <a href="{% url 'pos:superadmin_dashboard' %}" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800">
+                    <i class="bi bi-calculator"></i> POS System
+                </a>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-person"></i> My Activity <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+                <div class="flex items-center justify-between px-3 py-2 opacity-60">
+                    <i class="bi bi-droplet"></i> Keg Updates <span class="text-[9px] bg-slate-700 px-2 rounded">Soon</span>
+                </div>
+
+            </nav>
+        </div>
+
+        {% endif %}
+
+        {% endif %}
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="p-4 border-t border-slate-800 text-[10px] text-slate-500 flex justify-between items-center bg-slate-950/40">
+        <span>v2.0.0</span>
+        <span class="flex items-center gap-1">
+            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            Live
+        </span>
+    </div>
+
+</aside>

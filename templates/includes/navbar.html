@@ -1,0 +1,134 @@
+<nav class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 sticky top-0 z-10">
+
+    <!-- 🔥 IMPERSONATION BANNER -->
+    {% if is_impersonating %}
+    <div class="absolute top-0 left-0 w-full bg-yellow-100 text-yellow-800 text-center text-xs py-1 z-20">
+        ⚠️ Viewing as Business User
+        <a href="{% url 'core:exit_impersonation' %}" class="ml-2 underline font-semibold">
+            Exit Mode
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+
+        <!-- MOBILE MENU -->
+        <button class="md:hidden text-slate-600 hover:text-slate-800 transition">
+            <i class="bi bi-list text-2xl"></i>
+        </button>
+
+        <!-- 🔥 SYSTEM / BUSINESS NAME -->
+        <div class="flex flex-col leading-tight">
+
+            <!-- MAIN LABEL -->
+            <span class="text-lg font-semibold text-slate-800">
+
+                {% if request.user.is_superuser or request.user.is_superadmin %}
+                    System Administration
+                {% elif request.session.active_business_id %}
+                    {{ request.user.business.name }}
+                {% else %}
+                    Business Dashboard
+                {% endif %}
+
+            </span>
+
+            <!-- SUB LABEL -->
+            <span class="text-xs text-slate-400">
+
+                {% if request.user.is_superuser or request.user.is_superadmin %}
+                    Global Control Panel
+                {% elif request.user.role %}
+                    {{ request.user.role.name|upper }}
+                {% else %}
+                    STAFF
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex items-center gap-4">
+
+        <!-- CLOCK -->
+        <div id="clock" class="hidden lg:block text-slate-500 font-mono text-sm"></div>
+
+        <!-- 🔔 NOTIFICATIONS -->
+        <button class="relative p-2 text-slate-400 hover:text-slate-600 transition">
+            <i class="bi bi-bell text-xl"></i>
+
+            {% if unread_notifications|default:0 > 0 %}
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            {% endif %}
+        </button>
+
+        <!-- 👤 USER DROPDOWN -->
+        <div class="dropdown">
+
+            <button class="flex items-center gap-2 hover:bg-slate-50 px-2 py-1 rounded transition"
+                    data-bs-toggle="dropdown">
+
+                <!-- AVATAR -->
+                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center border border-slate-300">
+                    <i class="bi bi-person-fill text-slate-500"></i>
+                </div>
+
+                <!-- USER INFO -->
+                <div class="text-left hidden sm:block">
+
+                    <p class="text-xs font-semibold leading-none text-slate-700">
+                        {{ user.get_full_name|default:user.username }}
+                    </p>
+
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wide">
+                        {% if user.is_superuser or user.is_superadmin %}
+                            SUPERADMIN
+                        {% else %}
+                            {{ user.role.name|default:"STAFF" }}
+                        {% endif %}
+                    </p>
+
+                </div>
+
+            </button>
+
+            <!-- DROPDOWN MENU -->
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-3 rounded-lg overflow-hidden">
+
+                <li>
+                    <a class="dropdown-item py-2 flex items-center gap-2" href="{% url 'accounts:profile' %}">
+                        <i class="bi bi-person"></i> Profile
+                    </a>
+                </li>
+
+                {% if user.is_superuser or user.is_superadmin %}
+                <li>
+                    <a class="dropdown-item py-2 flex items-center gap-2" href="/admin/">
+                        <i class="bi bi-gear"></i> System Admin
+                    </a>
+                </li>
+                {% endif %}
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- LOGOUT -->
+                <li>
+                    <form method="POST" action="{% url 'accounts:logout' %}">
+                        {% csrf_token %}
+                        <button class="dropdown-item py-2 text-red-600 flex items-center gap-2" type="submit">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

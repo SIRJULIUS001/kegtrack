@@ -1,0 +1,32 @@
+<!-- business/partials/counter_row.html -->
+
+<div id="counter-{{ counter.id }}"
+     class="flex justify-between items-center bg-slate-50 p-3 rounded-lg border">
+
+    <div>
+        <p class="font-medium text-slate-800">{{ counter.name }}</p>
+        <p class="text-xs text-slate-500">{{ counter.type }}</p>
+    </div>
+
+    <div class="flex gap-2">
+
+        <!-- EDIT -->
+        <button
+            hx-get="{% url 'business:counter_update' counter.id %}"
+            hx-target="#counter-{{ counter.id }}"
+            hx-swap="outerHTML"
+            class="text-blue-600 text-sm">
+            Edit
+        </button>
+
+        <!-- DELETE -->
+        <button
+            hx-post="{% url 'business:counter_delete' counter.id %}"
+            hx-target="#counter-{{ counter.id }}"
+            hx-swap="outerHTML"
+            class="text-red-600 text-sm">
+            Delete
+        </button>
+
+    </div>
+</div>

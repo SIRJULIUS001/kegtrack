@@ -1,0 +1,58 @@
+{% for product in products %}
+<div class="border rounded-lg p-3 bg-slate-50">
+
+    <div class="font-semibold mb-2">
+        {{ product.name }}
+    </div>
+
+    {% for variant in product.variants.all %}
+    <div class="flex items-center justify-between py-1">
+
+        <!-- VARIANT -->
+        <div class="text-sm">
+            <span class="text-slate-700">
+                {{ variant.volume }}
+            </span>
+        </div>
+
+        <!-- ADD BUTTON -->
+        {% if location_id %}
+        <form
+            hx-post="{% url 'inventory:add_to_cart' %}"
+            hx-swap="none"
+
+            hx-on::after-request="
+                htmx.trigger('#cart', 'refresh-cart');
+            "
+
+            class="inline">
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="variant_id"
+                value="{{ variant.id }}">
+
+            <input
+                type="hidden"
+                name="location_id"
+                value="{{ location_id }}">
+
+            <button
+                type="submit"
+                hx-disabled-elt="this"
+                class="text-xs bg-indigo-600 text-white px-2 py-1 rounded hover:bg-indigo-700 transition">
+
+                + Add
+
+            </button>
+
+        </form>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+</div>
+{% endfor %}

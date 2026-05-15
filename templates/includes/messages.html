@@ -1,0 +1,52 @@
+<div class="fixed top-20 right-6 z-50 w-80 space-y-3">
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="
+            flex items-start gap-3 p-3 rounded-lg shadow-lg bg-white border
+            animate-fade-in
+        ">
+
+            <!-- ICON BLOCK -->
+            <div class="
+                w-9 h-9 flex items-center justify-center rounded-lg
+                {% if message.tags == 'success' %}
+                    bg-green-100 text-green-600
+                {% elif message.tags == 'error' %}
+                    bg-red-100 text-red-600
+                {% elif message.tags == 'warning' %}
+                    bg-yellow-100 text-yellow-600
+                {% else %}
+                    bg-blue-100 text-blue-600
+                {% endif %}
+            ">
+                {% if message.tags == 'success' %}
+                    <i class="bi bi-check-circle-fill"></i>
+                {% elif message.tags == 'error' %}
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                {% elif message.tags == 'warning' %}
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                {% else %}
+                    <i class="bi bi-info-circle-fill"></i>
+                {% endif %}
+            </div>
+
+            <!-- MESSAGE TEXT -->
+            <div class="flex-1 text-sm text-slate-700 font-medium">
+                {{ message }}
+            </div>
+
+            <!-- CLOSE -->
+            <button type="button" class="text-slate-400 hover:text-slate-600" data-bs-dismiss="alert">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>

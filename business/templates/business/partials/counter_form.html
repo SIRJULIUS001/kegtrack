@@ -1,0 +1,57 @@
+<form
+    hx-post="{% if counter %}{% url 'business:counter_update' counter.id %}{% else %}{% url 'business:counter_create' %}{% endif %}"
+    hx-target="{% if counter %}#counter-{{ counter.id }}{% else %}#counter-list{% endif %}"
+    hx-swap="{% if counter %}outerHTML{% else %}beforeend{% endif %}"
+    class="space-y-3 bg-white border border-slate-200 p-3 rounded-lg"
+>
+
+    {% csrf_token %}
+
+    <!-- NAME -->
+    <input type="text"
+           name="name"
+           value="{{ counter.name|default:'' }}"
+           placeholder="Counter name"
+           class="w-full border border-slate-300 rounded px-3 py-2 text-slate-800">
+
+    <!-- TYPE -->
+    <select name="type"
+            class="w-full border border-slate-300 rounded px-3 py-2 text-slate-800">
+
+        <option value="counter" {% if counter.type == "counter" %}selected{% endif %}>
+            Counter
+        </option>
+
+        <option value="bar" {% if counter.type == "bar" %}selected{% endif %}>
+            Bar
+        </option>
+
+        <option value="table" {% if counter.type == "table" %}selected{% endif %}>
+            Table
+        </option>
+
+        <option value="store" {% if counter.type == "store" %}selected{% endif %}>
+            Store
+        </option>
+
+    </select>
+
+    <!-- BUTTONS -->
+    <div class="flex gap-2">
+
+        <button type="submit"
+                class="bg-indigo-600 text-white px-4 py-2 rounded w-full">
+            {% if counter %}Update Counter{% else %}Save Counter{% endif %}
+        </button>
+
+        <button type="button"
+                hx-get="{% url 'business:profile' %}"
+                hx-target="#counter-form"
+                hx-swap="innerHTML"
+                class="border border-slate-300 px-4 py-2 rounded w-full text-slate-700">
+            Cancel
+        </button>
+
+    </div>
+
+</form>

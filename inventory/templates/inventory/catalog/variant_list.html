@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Product Variants{% endblock %}
+
+{% block content %}
+
+<div class="p-6 space-y-6">
+
+    <!-- ===================== -->
+    <!-- HEADER -->
+    <!-- ===================== -->
+    <div class="flex justify-between items-center">
+
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">
+                Product Variants
+            </h1>
+            <p class="text-sm text-slate-500">
+                Manage global product sizes and pricing templates
+            </p>
+        </div>
+
+        <a href="{% url 'inventory:variant_create' %}"
+           class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+            + Add Variant
+        </a>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- TABLE -->
+    <!-- ===================== -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <table class="w-full text-sm">
+
+            <thead class="bg-slate-100 text-slate-700">
+                <tr>
+                    <th class="p-3 text-left">Product</th>
+                    <th class="p-3 text-left">Category</th>
+                    <th class="p-3 text-left">Volume</th>
+                    <th class="p-3 text-left">Price</th>
+                    <th class="p-3 text-left">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for v in variants %}
+                <tr class="border-t hover:bg-slate-50">
+
+                    <!-- PRODUCT -->
+                    <td class="p-3 font-medium">
+                        {{ v.product.name }}
+                    </td>
+
+                    <!-- CATEGORY -->
+                    <td class="p-3">
+                        {% if v.product.category.parent %}
+                            <span class="text-xs text-slate-500">
+                                {{ v.product.category.parent.name }}
+                            </span>
+                            →
+                        {% endif %}
+                        {{ v.product.category.name }}
+                    </td>
+
+                    <!-- VOLUME -->
+                    <td class="p-3">
+                        <span class="px-2 py-1 bg-slate-100 rounded text-xs">
+                            {{ v.volume }}
+                        </span>
+                    </td>
+
+                    <!-- PRICE -->
+                    <td class="p-3 font-semibold text-indigo-600">
+                        {{ v.unit_price }}
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td class="p-3 flex gap-3">
+
+                        <a href="#"
+                           class="text-indigo-600 hover:underline">
+                            Edit
+                        </a>
+
+                        <a href="#"
+                           class="text-red-600 hover:underline">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <!-- EMPTY STATE -->
+                <tr>
+                    <td colspan="5" class="p-6 text-center text-slate-500">
+
+                        No variants found.<br>
+
+                        <a href="{% url 'inventory:variant_create' %}"
+                           class="text-indigo-600 underline">
+                            Add your first variant
+                        </a>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

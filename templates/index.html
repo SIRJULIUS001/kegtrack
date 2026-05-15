@@ -1,0 +1,154 @@
+{% extends 'base_public.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
+    .floating-card {
+        animation: float 6s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .floating-card-1 { animation-delay: 0s; }
+    .floating-card-2 { animation-delay: 1.5s; }
+    .floating-card-3 { animation-delay: 3s; }
+
+    .hero-bg {
+        background-image:
+            linear-gradient(to right, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.8)),
+            url("{% static 'images/pub-hero.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+<!-- HERO -->
+<section class="hero-bg py-28 md:py-36 text-white border-b border-white/5">
+
+    <div class="container mx-auto px-6 text-center">
+
+        <div class="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 px-4 py-1.5 rounded-full text-sm font-bold border border-amber-500/30 mb-8 tracking-wide uppercase">
+            <i class="bi bi-shield-check"></i>
+            Kenya’s Premier Keg Intelligence
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight max-w-5xl mx-auto">
+            Stop Beer Losses.
+            <span class="text-amber-500">Track Every Drop.</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+            Live keg monitoring, fraud detection, and automated WhatsApp reporting built for modern Kenyan pubs.
+        </p>
+
+        <!-- ✅ CLEAN AUTH CTA -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'accounts:logout' %}"
+                   class="px-10 py-4 bg-red-500 text-white rounded-2xl font-black shadow-xl hover:bg-red-400 transition">
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'accounts:login' %}"
+                   class="px-10 py-4 bg-amber-500 text-slate-900 rounded-2xl font-black shadow-2xl shadow-amber-500/20 hover:bg-amber-400 transition hover:-translate-y-1">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                </a>
+
+            {% endif %}
+
+            <a href="#features"
+               class="px-10 py-4 bg-white/5 text-white border border-white/10 rounded-2xl font-bold backdrop-blur-md hover:bg-white/10 transition">
+                Explore Features
+            </a>
+
+            <a href="#"
+               class="px-10 py-4 bg-green-600 text-white rounded-2xl font-bold shadow-xl hover:bg-green-500 transition">
+                <i class="bi bi-whatsapp me-2"></i> Request Demo
+            </a>
+
+        </div>
+
+        <!-- ✅ OPTIONAL USER INDICATOR -->
+        {% if user.is_authenticated %}
+            <p class="text-slate-400 mt-6 text-sm">
+                Logged in as <span class="text-amber-400 font-semibold">{{ user.username }}</span>
+            </p>
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-24 bg-[#0a0f1c] relative overflow-hidden">
+
+    <div class="absolute inset-0 opacity-[0.05]"
+         style="background-image: linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold text-white">
+                Built for Transparency & Control
+            </h2>
+            <p class="text-lg text-slate-400 mt-4">
+                Replace guesswork with real-time keg intelligence.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <!-- CARD 1 -->
+            <div class="floating-card floating-card-1 bg-slate-900/50 p-8 rounded-3xl border border-slate-800 hover:border-amber-500/50 transition group backdrop-blur-sm">
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-6 border border-amber-500/20">
+                    <i class="bi bi-moisture text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Live Keg Monitoring</h3>
+                <p class="text-slate-400 mb-5">
+                    Track keg levels in real time using smart weight-based analytics.
+                </p>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="floating-card floating-card-2 bg-slate-900/50 p-8 rounded-3xl border border-slate-800 hover:border-green-500/50 transition group backdrop-blur-sm">
+                <div class="w-14 h-14 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center mb-6 border border-green-500/20">
+                    <i class="bi bi-whatsapp text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">WhatsApp Alerts</h3>
+                <p class="text-slate-400 mb-5">
+                    Automatic reports and fraud alerts delivered instantly to owners.
+                </p>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="floating-card floating-card-3 bg-slate-900/50 p-8 rounded-3xl border border-slate-800 hover:border-amber-500/50 transition group backdrop-blur-sm">
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-6 border border-amber-500/20">
+                    <i class="bi bi-receipt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">KRA Compliance</h3>
+                <p class="text-slate-400 mb-5">
+                    Fully aligned with eTIMS for automated tax-ready reporting.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

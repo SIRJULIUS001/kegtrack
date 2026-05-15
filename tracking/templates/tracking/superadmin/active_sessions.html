@@ -1,0 +1,38 @@
+{% extends "tracking/superadmin/keg_dashboard.html" %}
+{% block keg_content %}
+
+<h2 class="text-xl font-bold mb-4">Active Keg Sessions</h2>
+
+<div class="bg-white rounded-lg shadow p-4">
+
+    {% if sessions %}
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="text-left border-b">
+                    <th>Keg</th>
+                    <th>Business</th>
+                    <th>Status</th>
+                    <th>Expected (L)</th>
+                    <th>Opened By</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for s in sessions %}
+                <tr class="border-b">
+                    <td>{{ s.keg.serial_number }}</td>
+                    <td>{{ s.keg.business.name }}</td>
+                    <td class="text-green-600">{{ s.status }}</td>
+                    <td>{{ s.expected_remaining_litres }}</td>
+                    <td>{{ s.opened_by.username }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-gray-500">No active keg sessions.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

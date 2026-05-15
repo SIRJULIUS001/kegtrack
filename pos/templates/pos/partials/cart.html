@@ -1,0 +1,26 @@
+<div class="p-3 border-b font-bold">
+    Current Sale
+</div>
+
+<div id="cart"
+     class="flex-1 overflow-y-auto p-3 space-y-2"
+     hx-get="{% url 'pos:cart_partial' %}"
+     hx-trigger="load, refresh-cart from:body">
+
+</div>
+
+<div class="p-3 border-t bg-white">
+
+    <form hx-post="{% url 'pos:checkout' %}"
+          hx-target="#cart"
+          hx-swap="innerHTML">
+
+        {% csrf_token %}
+
+        <button class="w-full bg-green-600 text-white py-2 rounded">
+            Complete Sale
+        </button>
+
+    </form>
+
+</div>

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Product Catalog{% endblock %}
+
+{% block content %}
+
+<div class="p-6 space-y-6">
+
+    <!-- ===================== -->
+    <!-- HEADER -->
+    <!-- ===================== -->
+    <div class="flex justify-between items-center">
+
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">
+                Product Catalog
+            </h1>
+            <p class="text-sm text-slate-500">
+                Manage global products across all businesses
+            </p>
+        </div>
+
+        <a href="{% url 'inventory:product_create' %}"
+           class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+            + Add Product
+        </a>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- TABLE -->
+    <!-- ===================== -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <table class="w-full text-sm">
+
+            <thead class="bg-slate-100 text-slate-700">
+                <tr>
+                    <th class="p-3 text-left">Product</th>
+                    <th class="p-3 text-left">Category</th>
+                    <th class="p-3 text-left">Variants</th>
+                    <th class="p-3 text-left">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for product in products %}
+                <tr class="border-t hover:bg-slate-50">
+
+                    <!-- PRODUCT -->
+                    <td class="p-3 font-medium">
+                        {{ product.name }}
+                    </td>
+
+                    <!-- CATEGORY -->
+                    <td class="p-3">
+                        {% if product.category.parent %}
+                            <span class="text-xs text-slate-500">
+                                {{ product.category.parent.name }}
+                            </span>
+                            →
+                        {% endif %}
+                        {{ product.category.name }}
+                    </td>
+
+                    <!-- VARIANTS -->
+                    <td class="p-3">
+                        {% if product.variants.all %}
+                            <div class="flex flex-wrap gap-1">
+                                {% for v in product.variants.all %}
+                                    <span class="px-2 py-1 bg-slate-100 rounded text-xs">
+                                        {{ v.volume }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-slate-400 text-xs">No variants</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td class="p-3 flex gap-3">
+
+                        <a href="{% url 'inventory:product_update' product.id %}"
+                           class="text-indigo-600 hover:underline">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'inventory:product_delete' product.id %}"
+                           class="text-red-600 hover:underline">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <!-- EMPTY STATE -->
+                <tr>
+                    <td colspan="4" class="p-6 text-center text-slate-500">
+
+                        No products found.<br>
+
+                        <a href="{% url 'inventory:product_create' %}"
+                           class="text-indigo-600 underline">
+                            Add your first product
+                        </a>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

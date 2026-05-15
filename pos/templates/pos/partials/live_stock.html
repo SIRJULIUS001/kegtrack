@@ -1,0 +1,10 @@
+<div class="p-3 border-b font-bold">
+    Live Stock
+</div>
+
+<div id="stock-panel"
+     class="flex-1 overflow-y-auto p-3"
+     hx-get="{% url 'pos:stock_panel' %}"
+     hx-trigger="load, every 5s">
+
+</div>

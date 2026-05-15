@@ -1,0 +1,10 @@
+<div class="bg-white border-b px-4 py-3 flex justify-between">
+    <div>
+        <h1 class="font-bold">POS Terminal</h1>
+        <p class="text-xs text-slate-500">{{ business.name }}</p>
+    </div>
+
+    <div class="text-sm">
+        {{ request.user.get_full_name }}
+    </div>
+</div>

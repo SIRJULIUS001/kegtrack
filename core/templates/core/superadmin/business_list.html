@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="p-6">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6">
+
+        <div>
+            <h1 class="text-2xl font-bold">Business Management</h1>
+            <p class="text-sm text-slate-500">Superadmin control center</p>
+        </div>
+
+        <a href="{% url 'core:business_create' %}"
+           class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+            + Add Business
+        </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <table class="w-full text-left">
+
+            <thead class="bg-slate-100 text-slate-700 text-sm">
+                <tr>
+                    <th class="p-3">Business</th>
+                    <th class="p-3">Type</th>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for b in businesses %}
+                <tr class="border-t hover:bg-slate-50">
+
+                    <!-- NAME -->
+                    <td class="p-3 font-semibold">{{ b.name }}</td>
+
+                    <!-- TYPE -->
+                    <td class="p-3 capitalize">{{ b.business_type }}</td>
+
+                    <!-- EMAIL -->
+                    <td class="p-3">{{ b.email }}</td>
+
+                    <!-- STATUS -->
+                    <td class="p-3">
+                        {% if b.is_active %}
+                            <span class="text-green-600 font-semibold">Active</span>
+                        {% else %}
+                            <span class="text-red-600 font-semibold">Disabled</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td class="p-3">
+
+                        <div class="flex flex-wrap gap-3 items-center">
+
+                            <!-- VIEW -->
+                            <a href="#"
+                               class="text-blue-600 hover:underline">
+                                View
+                            </a>
+
+                            <!-- EDIT -->
+                            <a href="{% url 'core:business_edit' b.id %}"
+                               class="text-yellow-600 hover:underline">
+                                Edit
+                            </a>
+
+                            <!-- TOGGLE -->
+                            <a href="{% url 'core:business_toggle' b.id %}"
+                               class="hover:underline
+                               {% if b.is_active %}
+                                    text-red-600
+                               {% else %}
+                                    text-green-600
+                               {% endif %}">
+                                
+                                {% if b.is_active %}
+                                    Disable
+                                {% else %}
+                                    Enable
+                                {% endif %}
+
+                            </a>
+
+                            <!-- 🟣 IMPERSONATION (SUPERADMIN CORE FEATURE) -->
+                            <a href="{% url 'core:business_impersonate' b.id %}"
+                               class="text-indigo-600 hover:underline font-semibold">
+                                Impersonate
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+                {% empty %}
+
+                <tr>
+                    <td colspan="5" class="p-6 text-center text-slate-500">
+                        No businesses found
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

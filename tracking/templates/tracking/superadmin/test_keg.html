@@ -1,0 +1,39 @@
+{% extends "tracking/superadmin/keg_dashboard.html" %}
+{% block keg_content %}
+
+<h2 class="text-xl font-bold mb-4">Keg Test Flow (Simulation)</h2>
+
+<div class="bg-white p-4 rounded-lg shadow">
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label class="text-sm">Select Keg</label>
+        <select name="keg" class="w-full border p-2 rounded mb-3">
+            {% for k in kegs %}
+            <option value="{{ k.id }}">{{ k.serial_number }}</option>
+            {% endfor %}
+        </select>
+
+        <label class="text-sm">Action</label>
+        <select name="action" class="w-full border p-2 rounded mb-3">
+            <option value="open">Open Keg</option>
+            <option value="sell">Record Sale</option>
+            <option value="verify">Verify Keg</option>
+        </select>
+
+        <input name="litres" placeholder="Litres Sold" class="w-full border p-2 rounded mb-3">
+
+        <input name="weight" placeholder="Measured Weight" class="w-full border p-2 rounded mb-3">
+
+        <input type="file" name="photo" class="w-full mb-3">
+
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded">
+            Execute
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

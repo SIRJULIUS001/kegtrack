@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Superadmin Control Panel{% endblock %}
+
+{% block content %}
+
+<div class="p-6 space-y-8">
+
+    <!-- ===================== -->
+    <!-- HEADER -->
+    <!-- ===================== -->
+    <div>
+        <h1 class="text-3xl font-bold text-slate-900">
+            Superadmin Control Panel
+        </h1>
+        <p class="text-sm text-slate-500">
+            System-wide management of products, businesses, and configuration
+        </p>
+    </div>
+
+    <!-- ===================== -->
+    <!-- ANALYTICS CARDS -->
+    <!-- ===================== -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+        <div class="bg-white p-5 rounded-xl shadow">
+            <p class="text-sm text-slate-500">Total Products</p>
+            <p class="text-2xl font-bold text-indigo-600">
+                {{ total_products|default:0 }}
+            </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow">
+            <p class="text-sm text-slate-500">Product Variants</p>
+            <p class="text-2xl font-bold text-indigo-600">
+                {{ total_variants|default:0 }}
+            </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow">
+            <p class="text-sm text-slate-500">Active Businesses</p>
+            <p class="text-2xl font-bold text-green-600">
+                {{ total_businesses|default:0 }}
+            </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow">
+            <p class="text-sm text-slate-500">Categories</p>
+            <p class="text-2xl font-bold text-yellow-600">
+                {{ total_categories|default:0 }}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- QUICK ACTIONS -->
+    <!-- ===================== -->
+    <div class="bg-white p-6 rounded-xl shadow">
+
+        <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+            <a href="{% url 'inventory:product_list' %}"
+               class="p-4 bg-slate-50 hover:bg-slate-100 rounded-lg text-center">
+                📦 Products
+            </a>
+
+            <a href="{% url 'inventory:variant_list' %}"
+               class="p-4 bg-slate-50 hover:bg-slate-100 rounded-lg text-center">
+                🧪 Variants
+            </a>
+
+            <a href="{% url 'inventory:product_create' %}"
+               class="p-4 bg-slate-50 hover:bg-slate-100 rounded-lg text-center">
+                ➕ Add Product
+            </a>
+
+            <a href="{% url 'inventory:variant_create' %}"
+               class="p-4 bg-slate-50 hover:bg-slate-100 rounded-lg text-center">
+                ➕ Add Variant
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- SYSTEM MODULES -->
+    <!-- ===================== -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- PRODUCTS -->
+        <div class="bg-white p-5 rounded-xl shadow space-y-3">
+
+            <h3 class="font-semibold text-slate-900">Product Catalog</h3>
+
+            <p class="text-sm text-slate-500">
+                Manage global drink categories and items
+            </p>
+
+            <a href="{% url 'inventory:product_list' %}"
+               class="text-indigo-600 hover:underline text-sm">
+                Open →
+            </a>
+
+        </div>
+
+        <!-- VARIANTS -->
+        <div class="bg-white p-5 rounded-xl shadow space-y-3">
+
+            <h3 class="font-semibold text-slate-900">Variants</h3>
+
+            <p class="text-sm text-slate-500">
+                Define sizes like 1L, 500ml, 30ml shots
+            </p>
+
+            <a href="{% url 'inventory:variant_list' %}"
+               class="text-indigo-600 hover:underline text-sm">
+                Manage →
+            </a>
+
+        </div>
+
+        <!-- BUSINESS -->
+        <div class="bg-white p-5 rounded-xl shadow space-y-3">
+
+            <h3 class="font-semibold text-slate-900">Business Access</h3>
+
+            <p class="text-sm text-slate-500">
+                View and support businesses via impersonation
+            </p>
+
+            <!-- SAFE URL (prevents crash if not defined yet) -->
+            {% if business_list_url %}
+                <a href="{% url 'core:business_list'%}"
+                   class="text-indigo-600 hover:underline text-sm">
+                    Open →
+                </a>
+            {% else %}
+                <span class="text-xs text-slate-400">
+                    URL not configured
+                </span>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

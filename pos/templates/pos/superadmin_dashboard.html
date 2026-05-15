@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="p-6 space-y-6">
+
+    <!-- HEADER -->
+    <div>
+        <h1 class="text-2xl font-bold">POS Superadmin Dashboard</h1>
+        <p class="text-sm text-gray-500">
+            Monitor sales performance across all businesses
+        </p>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Total Revenue</p>
+            <h2 class="text-xl font-bold">
+                KES {{ total_revenue|floatformat:2 }}
+            </h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Total Transactions</p>
+            <h2 class="text-xl font-bold">
+                {{ total_transactions }}
+            </h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Active Sessions</p>
+            <h2 class="text-xl font-bold">
+                {{ active_sessions }}
+            </h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Average Sale</p>
+            <h2 class="text-xl font-bold">
+                KES {{ avg_sale|floatformat:2 }}
+            </h2>
+        </div>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- ACTIVE SESSIONS -->
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h3 class="font-semibold mb-3">Active POS Sessions</h3>
+
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="text-left text-gray-500">
+                        <th>Business</th>
+                        <th>Opened By</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in sessions %}
+                    <tr class="border-t">
+                        <td>{{ s.business.name }}</td>
+                        <td>{{ s.opened_by }}</td>
+                        <td>
+                            {% if s.is_active %}
+                                <span class="text-green-600">Active</span>
+                            {% else %}
+                                Closed
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No sessions</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RECENT TRANSACTIONS -->
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h3 class="font-semibold mb-3">Recent Transactions</h3>
+
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="text-left text-gray-500">
+                        <th>Business</th>
+                        <th>Product</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr class="border-t">
+                        <td>{{ t.business.name }}</td>
+                        <td>{{ t.product.name }}</td>
+                        <td>KES {{ t.total_price }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No transactions</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

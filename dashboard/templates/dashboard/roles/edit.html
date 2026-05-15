@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="p-6 max-w-xl">
+
+    <!-- HEADER -->
+    <h1 class="text-2xl font-bold mb-1">Edit Role</h1>
+    <p class="text-sm text-gray-500 mb-6">
+        Update role details
+    </p>
+
+    <!-- FORM -->
+    <form method="POST" class="bg-white p-6 rounded-lg shadow space-y-4">
+        {% csrf_token %}
+
+        <!-- ROLE NAME -->
+        <div>
+            <label class="text-sm font-medium text-gray-700">Role Name</label>
+            <input type="text"
+                   name="name"
+                   value="{{ role.name }}"
+                   required
+                   class="w-full mt-1 border rounded px-3 py-2 focus:ring focus:ring-indigo-200">
+        </div>
+
+        <!-- ROLE TYPE INFO (READ ONLY) -->
+        <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded">
+            This role is part of the RBAC system. Permissions are managed separately.
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex gap-2">
+
+            <button class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded">
+                Save Changes
+            </button>
+
+            <a href="{% url 'dashboard:update_role_permissions' role.id %}"
+               class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+                Manage Permissions
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

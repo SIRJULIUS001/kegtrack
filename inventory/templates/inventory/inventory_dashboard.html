@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="space-y-6">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">Inventory Dashboard</h1>
+            <p class="text-slate-500 text-sm">
+                {{ business.name }} • Real-time stock overview
+            </p>
+        </div>
+
+        <div class="flex gap-3">
+
+            <select class="border rounded-lg px-3 py-2 text-sm">
+                <option>All Locations</option>
+                {% for loc in locations %}
+                    <option value="{{ loc.id }}">{{ loc.name }}</option>
+                {% endfor %}
+            </select>
+
+            <input type="text"
+                   placeholder="Search products..."
+                   class="border rounded-lg px-3 py-2 text-sm w-64">
+
+        </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <div class="bg-white border rounded-xl p-4">
+            <p class="text-slate-500 text-sm">Total Stock Items</p>
+            <p class="text-2xl font-bold text-slate-800">{{ stock_items|length }}</p>
+        </div>
+
+        <div class="bg-white border rounded-xl p-4">
+            <p class="text-slate-500 text-sm">Low Stock Alerts</p>
+            <p class="text-2xl font-bold text-red-600">{{ low_stock_count }}</p>
+        </div>
+
+        <div class="bg-white border rounded-xl p-4">
+            <p class="text-slate-500 text-sm">Active Locations</p>
+            <p class="text-2xl font-bold text-slate-800">{{ locations|length }}</p>
+        </div>
+
+    </div>
+
+    <!-- INVENTORY TABLE -->
+    <div class="bg-white border rounded-xl overflow-hidden">
+
+        <div class="p-4 border-b">
+            <h2 class="font-semibold text-slate-800">Stock Overview</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-sm">
+
+                <thead class="bg-slate-50 text-slate-600">
+                    <tr>
+                        <th class="text-left p-3">Product</th>
+                        <th class="text-left p-3">Variant</th>
+                        <th class="text-left p-3">Location</th>
+                        <th class="text-left p-3">Qty</th>
+                        <th class="text-right p-3">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="stock-table">
+
+                    {% for stock in stock_items %}
+
+                        {% include "inventory/partials/stock_row.html" %}
+
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="p-6 text-center text-slate-500">
+                                No stock available
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

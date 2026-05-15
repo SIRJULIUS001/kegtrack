@@ -1,0 +1,41 @@
+{% extends "tracking/superadmin/keg_dashboard.html" %}
+
+{% block keg_content %}
+
+<div class="bg-white rounded-lg shadow p-5">
+
+    <h2 class="font-semibold text-lg mb-4">Fraud Monitoring</h2>
+
+    <table class="w-full text-sm">
+
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="p-2">Business</th>
+                <th class="p-2">Fraud Score</th>
+                <th class="p-2">Variance</th>
+                <th class="p-2">Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for s in signals %}
+            <tr class="border-t">
+                <td class="p-2">{{ s.business.name }}</td>
+                <td class="p-2 text-red-600 font-bold">{{ s.fraud_score }}</td>
+                <td class="p-2">{{ s.total_variance }}</td>
+                <td class="p-2">
+                    {% if s.flagged %}
+                        <span class="text-red-600">FLAGGED</span>
+                    {% else %}
+                        <span class="text-green-600">OK</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

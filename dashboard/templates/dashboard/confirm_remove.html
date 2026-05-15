@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="p-6 max-w-lg mx-auto">
+
+    <div class="bg-white shadow rounded p-6 space-y-4">
+
+        <h1 class="text-xl font-bold text-red-600">
+            Remove Staff Member
+        </h1>
+
+        <p class="text-gray-600">
+            Are you sure you want to remove
+            <span class="font-semibold">{{ user.username }}</span>
+            from this business?
+        </p>
+
+        <div class="text-sm text-gray-500">
+            This will:
+            <ul class="list-disc ml-5 mt-2">
+                <li>Remove business assignment</li>
+                <li>Remove role assignment</li>
+                <li>Deactivate staff access</li>
+            </ul>
+        </div>
+
+        <form method="POST"
+              action="{% url 'dashboard:remove_staff' user.id %}">
+            {% csrf_token %}
+
+            <div class="flex gap-3">
+
+                <button type="submit"
+                        class="bg-red-600 text-white px-4 py-2 rounded">
+                    Yes, Remove
+                </button>
+
+                <a href="{% url 'dashboard:staff_list' %}"
+                   class="bg-gray-300 px-4 py-2 rounded">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="p-6 space-y-6">
+
+    <!-- HEADER -->
+    <div>
+        <h1 class="text-2xl font-bold">Keg Control Center</h1>
+        <p class="text-sm text-gray-500">
+            Manage system rules, business policies, and live keg operations
+        </p>
+    </div>
+
+    <!-- 🔥 KPI CARDS -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Active Sessions</p>
+            <h2 class="text-xl font-bold">{{ active_sessions|default:0 }}</h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Total Consumption</p>
+            <h2 class="text-xl font-bold">
+                {{ total_consumed|default:0|floatformat:1 }} L
+            </h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Verifications</p>
+            <h2 class="text-xl font-bold">{{ total_verifications|default:0 }}</h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow">
+            <p class="text-xs text-gray-500">Fraud Alerts</p>
+            <h2 class="text-xl font-bold text-red-600">
+                {{ fraud_cases|default:0 }}
+            </h2>
+        </div>
+
+    </div>
+
+    <!-- NAV TABS -->
+    <div class="flex gap-2 border-b pb-3 overflow-x-auto">
+
+        <a href="{% url 'tracking:keg_config' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'keg_config' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            System Config
+        </a>
+
+        <a href="{% url 'tracking:business_keg_policy' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'business_keg_policy' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            Business Policies
+        </a>
+
+        <a href="{% url 'tracking:fraud_monitor' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'fraud_monitor' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            Fraud Monitor
+        </a>
+
+        <a href="{% url 'tracking:active_sessions' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'active_sessions' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            Active Sessions
+        </a>
+
+        <a href="{% url 'tracking:keg_verifications' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'keg_verifications' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            Verifications
+        </a>
+
+        <a href="{% url 'tracking:test_keg' %}"
+           class="px-4 py-2 rounded-lg text-sm whitespace-nowrap transition
+           {% if request.resolver_match.url_name == 'test_keg' %}
+               bg-indigo-600 text-white
+           {% else %}
+               bg-gray-100 hover:bg-gray-200
+           {% endif %}">
+            Test Flow
+        </a>
+
+    </div>
+
+    <!-- 🔥 QUICK INSIGHT PANEL -->
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- RECENT SESSIONS -->
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h3 class="font-semibold mb-3">Recent Keg Activity</h3>
+
+            <ul class="space-y-2 text-sm">
+                {% for s in recent_sessions %}
+                    <li class="flex justify-between border-b pb-1">
+                        <span>{{ s.keg }}</span>
+                        <span class="text-gray-500">
+                            {{ s.consumed_volume }} L
+                        </span>
+                    </li>
+                {% empty %}
+                    <li>No active sessions</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- RECENT VERIFICATIONS -->
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h3 class="font-semibold mb-3">Recent Verifications</h3>
+
+            <ul class="space-y-2 text-sm">
+                {% for v in recent_verifications %}
+                    <li class="flex justify-between border-b pb-1">
+                        <span>{{ v.keg }}</span>
+                        <span class="text-gray-500">
+                            {{ v.measured_weight }} kg
+                        </span>
+                    </li>
+                {% empty %}
+                    <li>No verifications yet</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="mt-4">
+        {% block keg_content %}{% endblock %}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Business Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="p-6 space-y-6">
+
+    <!-- ===================== -->
+    <!-- HEADER -->
+    <!-- ===================== -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">
+                {{ business.name }}
+            </h1>
+            <p class="text-sm text-slate-500">
+                Real-time operational intelligence dashboard
+            </p>
+        </div>
+
+        <div class="flex gap-2 flex-wrap">
+
+            {% if is_impersonating %}
+            <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                Superadmin View
+            </span>
+            {% endif %}
+
+            <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                Active
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- KPI CARDS -->
+    <!-- ===================== -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <!-- REVENUE -->
+        <div class="bg-white border rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-slate-500">Total Revenue</p>
+            <h2 class="text-xl font-bold text-green-600">
+                KES {{ total_revenue|default:0 }}
+            </h2>
+        </div>
+
+        <!-- ACTIVE POS -->
+        <div class="bg-white border rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-slate-500">Active POS Sessions</p>
+            <h2 class="text-xl font-bold text-slate-800">
+                {{ active_sessions }}
+            </h2>
+        </div>
+
+        <!-- KEG CONSUMPTION -->
+        <div class="bg-white border rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-slate-500">Beer Consumed</p>
+            <h2 class="text-xl font-bold text-blue-600">
+                {{ total_consumed }} L
+            </h2>
+        </div>
+
+        <!-- ACTIVE KEGS -->
+        <div class="bg-white border rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-slate-500">Active Kegs</p>
+            <h2 class="text-xl font-bold text-indigo-600">
+                {{ active_kegs }}
+            </h2>
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- SECOND ROW -->
+    <!-- ===================== -->
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- STAFF SUMMARY -->
+        <div class="bg-white border rounded-xl p-6 shadow-sm">
+
+            <h3 class="font-bold text-slate-800 mb-4">
+                Staff Overview
+            </h3>
+
+            <div class="space-y-3 text-sm">
+
+                <div class="flex justify-between">
+                    <span>Total Staff</span>
+                    <span class="font-semibold">{{ staff_count }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>Owners</span>
+                    <span class="font-semibold">{{ owner_count }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>Managers</span>
+                    <span class="font-semibold">{{ manager_count }}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LIVE OPERATIONS -->
+        <div class="bg-white border rounded-xl p-6 shadow-sm">
+
+            <h3 class="font-bold text-slate-800 mb-4">
+                Live Operations
+            </h3>
+
+            <div class="space-y-3 text-sm">
+
+                <div class="flex justify-between border-b pb-2">
+                    <span>POS Status</span>
+                    <span class="text-green-600 font-semibold">Running</span>
+                </div>
+
+                <div class="flex justify-between border-b pb-2">
+                    <span>Keg Tracking</span>
+                    <span class="text-blue-600 font-semibold">Active</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>System Mode</span>
+                    <span class="text-indigo-600 font-semibold">
+                        {{ user.role.name|default:"USER" }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- QUICK ACTIONS -->
+    <!-- ===================== -->
+    <div class="bg-white border rounded-xl p-6 shadow-sm">
+
+        <h3 class="font-bold text-slate-800 mb-4">
+            Quick Actions
+        </h3>
+
+        <div class="flex flex-wrap gap-3">
+
+            <a href="#"
+               class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                Add Staff
+            </a>
+
+            <a href="#"
+               class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                View POS
+            </a>
+
+            <a href="#"
+               class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Keg Sessions
+            </a>
+
+            <a href="#"
+               class="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800">
+                Reports
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

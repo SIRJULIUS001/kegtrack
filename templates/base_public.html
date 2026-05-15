@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KegTracker | Precision Pub Management</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Glass navbar effect */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Active link */
+        .nav-active {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* Smooth transitions */
+        a {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-white text-slate-900">
+
+<!-- ================= NAVBAR ================= -->
+<nav id="public-nav" class="fixed w-full z-50 transition-all duration-300 py-4">
+
+    <div class="container mx-auto px-6 flex items-center justify-between">
+
+        <!-- BRAND -->
+        "<a href="{% url 'core:index' %}" class="flex items-center gap-2 no-underline"></a>
+
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+                <i class="bi bi-droplet-fill text-white text-xl"></i>
+            </div>
+
+            <span class="text-2xl font-extrabold tracking-tighter text-slate-900">
+                KEG<span class="text-indigo-600">TRACK</span>
+            </span>
+
+        </a>
+
+        <!-- LINKS -->
+        <div class="hidden md:flex items-center gap-8 font-medium text-slate-600">
+
+            <a href="#features" class="hover:text-indigo-600">Features</a>
+            <a href="#pricing" class="hover:text-indigo-600">Pricing</a>
+            <a href="#about" class="hover:text-indigo-600">About</a>
+
+        </div>
+
+        <!-- AUTH ACTIONS -->
+        <div class="flex items-center gap-3">
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'core:index' %}"
+                   class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-bold shadow-md hover:bg-indigo-700">
+                    Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'accounts:login' %}"
+                   class="hidden sm:block text-slate-700 font-semibold px-4 hover:text-indigo-600">
+                    Login
+                </a>
+
+                <a href="#"
+                   class="px-5 py-2.5 bg-slate-900 text-white rounded-xl font-bold shadow-md hover:bg-slate-800">
+                    Get Started
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= CONTENT ================= -->
+<main class="pt-20">
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-slate-50 border-t border-slate-200 py-12 mt-20">
+
+    <div class="container mx-auto px-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+            <!-- BRAND -->
+            <div class="col-span-1 md:col-span-2">
+
+                <div class="flex items-center gap-2 mb-4">
+
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+                        <i class="bi bi-droplet-fill text-sm"></i>
+                    </div>
+
+                    <span class="text-xl font-bold">KEGTRACK</span>
+
+                </div>
+
+                <p class="text-slate-500 max-w-sm">
+                    Real-time keg intelligence system built for modern Kenyan pubs and bars.
+                </p>
+
+            </div>
+
+            <!-- PLATFORM -->
+            <div>
+                <h4 class="font-bold mb-4">Platform</h4>
+                <ul class="text-slate-500 space-y-2 text-sm">
+                    <li>Keg Monitoring</li>
+                    <li>POS Integration</li>
+                    <li>WhatsApp Alerts</li>
+                </ul>
+            </div>
+
+            <!-- COMPANY -->
+            <div>
+                <h4 class="font-bold mb-4">Company</h4>
+                <ul class="text-slate-500 space-y-2 text-sm">
+                    <li>Privacy Policy</li>
+                    <li>Support</li>
+                    <li class="text-indigo-600 font-semibold">Kenya</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="border-t border-slate-200 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+
+            <p>
+                &copy; 2026 KegTrack Systems. All rights reserved.
+            </p>
+
+            <div class="flex gap-5 text-lg">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-whatsapp"></i></a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Navbar scroll effect (PRO CLEAN VERSION)
+    const nav = document.getElementById('public-nav');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('nav-glass', 'shadow-sm', 'py-3');
+            nav.classList.remove('py-4');
+        } else {
+            nav.classList.remove('nav-glass', 'shadow-sm', 'py-3');
+            nav.classList.add('py-4');
+        }
+    });
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

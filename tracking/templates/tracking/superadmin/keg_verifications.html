@@ -1,0 +1,39 @@
+{% extends "tracking/superadmin/keg_dashboard.html" %}
+{% block keg_content %}
+
+<h2 class="text-xl font-bold mb-4">Keg Verifications</h2>
+
+<div class="grid gap-4">
+
+    {% for v in verifications %}
+    <div class="bg-white shadow rounded-lg p-4">
+
+        <div class="flex justify-between">
+            <div>
+                <p class="font-semibold">{{ v.keg.serial_number }}</p>
+                <p class="text-xs text-gray-500">{{ v.business.name }}</p>
+            </div>
+
+            <span class="text-xs text-gray-400">{{ v.created_at }}</span>
+        </div>
+
+        <div class="mt-2 text-sm">
+            <p>Weight: {{ v.measured_weight }}</p>
+            <p>Litres: {{ v.calculated_litres }}</p>
+            <p>Variance: 
+                <span class="font-bold {% if v.variance > 0 %}text-red-600{% else %}text-green-600{% endif %}">
+                    {{ v.variance }}
+                </span>
+            </p>
+        </div>
+
+        {% if v.photo %}
+        <img src="{{ v.photo.url }}" class="mt-2 rounded-lg max-h-40">
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

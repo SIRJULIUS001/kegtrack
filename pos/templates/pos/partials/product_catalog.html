@@ -1,0 +1,16 @@
+<div class="p-3 border-b">
+    <input type="text"
+           placeholder="Search products..."
+           class="w-full border rounded px-3 py-2"
+           hx-get="{% url 'pos:search_products' %}"
+           hx-target="#product-grid"
+           hx-trigger="keyup changed delay:300ms">
+</div>
+
+<div id="product-grid"
+     class="flex-1 overflow-y-auto p-3 space-y-3"
+     hx-get="{% url 'pos:product_list' %}"
+     hx-trigger="load">
+
+    <!-- products load here -->
+</div>

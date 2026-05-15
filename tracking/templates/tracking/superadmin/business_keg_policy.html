@@ -1,0 +1,35 @@
+{% extends "tracking/superadmin/keg_dashboard.html" %}
+
+{% block keg_content %}
+
+<div class="bg-white rounded-lg shadow p-5">
+
+    <h2 class="font-semibold text-lg mb-4">Business Policies</h2>
+
+    <table class="w-full text-sm">
+
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="p-2 text-left">Business</th>
+                <th class="p-2 text-left">Tracking</th>
+                <th class="p-2 text-left">Max Variance</th>
+                <th class="p-2 text-left">Strict</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in policies %}
+            <tr class="border-t">
+                <td class="p-2">{{ p.business.name }}</td>
+                <td class="p-2">{{ p.allow_keg_tracking|yesno:"ON,OFF" }}</td>
+                <td class="p-2">{{ p.max_variance_percent }}%</td>
+                <td class="p-2">{{ p.strict_verification|yesno:"YES,NO" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

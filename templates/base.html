@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KegTracker | {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- ✅ ONLY ONE HTMX VERSION -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .theme-superadmin { --role-color: #6366f1; }
+        .theme-owner { --role-color: #0ea5e9; }
+        .theme-manager { --role-color: #10b981; }
+        .theme-staff { --role-color: #f59e0b; }
+
+        .sidebar-active {
+            border-left: 4px solid var(--role-color);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .role-accent {
+            color: var(--role-color);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 theme-{% if user.role %}{{ user.role.code }}{% else %}staff{% endif %}">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    {% include 'includes/sidebar.html' %}
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        <!-- NAVBAR -->
+        {% include 'includes/navbar.html' %}
+
+        <!-- MESSAGES (optional legacy) -->
+        <div class="px-6 mt-3">
+            {% include 'includes/messages.html' %}
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ SAFE CSRF FOR HTMX -->
+<script>
+document.body.addEventListener('htmx:configRequest', function (event) {
+    const token = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (token) {
+        event.detail.headers['X-CSRFToken'] = token.value;
+    }
+});
+</script>
+
+<!-- MAIN JS -->
+<script src="{% static 'js/main.js' %}"></script>
+
+<script>
+function collectQty(variantId, locationId) {
+    return {
+        variant_id: variantId,
+        location_id: locationId,
+        qty: document.getElementById(`qty-${variantId}`).value
+    };
+}
+</script>
+
+</body>
+</html>
